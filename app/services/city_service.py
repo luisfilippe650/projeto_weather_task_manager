@@ -1,5 +1,6 @@
 import requests
 
+
 def existcity(name):
 
     url = f"https://nominatim.openstreetmap.org/search?q={name}&format=json"

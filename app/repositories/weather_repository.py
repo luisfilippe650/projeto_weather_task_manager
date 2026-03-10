@@ -1,26 +1,28 @@
-from app.database.connection import connection
+from app import connection
 
-def savehistoric(id, temp, desc):
+
+def save_historic(id, temp, desc):
 
     database = connection()
     cursor = database.cursor()
 
-    date = (id,temp,desc)
+    data = (id, temp, desc)
 
-    sql ='insert into historico_clima(cidade_id,temperatura,descricao) values (%s,%s,%s)'
+    sql = "INSERT INTO historico_clima(cidade_id, temperatura, descricao) VALUES (%s, %s, %s)"
 
-    cursor.execute(sql,date)
+    cursor.execute(sql, data)
     database.commit()
 
     cursor.close()
     database.close()
 
-def viewhistoric():
+
+def view_historic():
 
     database = connection()
     cursor = database.cursor()
 
-    sql = 'select * from historico_clima'
+    sql = "SELECT * FROM historico_clima"
 
     cursor.execute(sql)
     result = cursor.fetchall()

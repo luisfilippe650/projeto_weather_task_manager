@@ -1,9 +1,13 @@
 from app.services.city_service import existcity
 from app.services.weather_service import weathernow
-from app.repositories.city_repository import addcity,deletecity,listcity,searchcity
-from app.repositories.weather_repository import viewhistoric, savehistoric
+from app.repositories.city_repository import (add_city, delete_city, list_city, search_city)
+from app.repositories.weather_repository import view_historic, save_historic
 
-#finalizada
+
+
+#funcao add irá chamar a função add_city do arquivo repositories/city_repository e tem a finalidade de verificar a existencia da cidade
+# se existir ela adiciona á cidade e sua informações
+# o retorno é um print com a menssagem de sucesso ao inserir
 def add(name):
 
     namecity, lat, lon = existcity(name)
@@ -11,39 +15,43 @@ def add(name):
     if namecity == None:
         return None
 
-    #vai printar a mensagem que salvou corretamente
 
-    return print(addcity(namecity,lat,lon))
+    return print(add_city(namecity, lat, lon))
 
-#finalizada
+
+#função list irá chamar a função list_city do arquivo repository/list_city e tem a finalidade de retorna todas cidades adicionadas
 def list():
 
-    return print(listcity())
+    return print(list_city())
 
-#finalizada
+
+#função delete irá chamar a função delete_city do arquivo repository/delete_city e tem a finalidade de deletar os dados do banco
+# a forma de exclusão de dados e via id
+# após o sucesso da função irá retorna a mensagem:  deletado com sucesso
 def delete(id):
 
-    return print(deletecity(id))
+    return print(delete_city(id))
 
+#função tempo irá puxar os dados do search_city onde irá consultar se a cidade colocada está adicionada
+#apos isso irá puxar a função weathenow e adicionar os dados obtido para obter o clima
+#depois ele irá salva no historico sua consulta
+#por fim o retorno de um print com suas informações
+def tempo(name):
 
-def waether(name):
+    nome, id, lat, lon = search_city(name)
 
-    name, id,lat,lon = searchcity(name)
+    temperature, weather = weathernow(lat, lon)
 
-    temperature, weather = weathernow(lat,lon)
+    save_historic(id, temperature, weather)
 
-    savehistoric(id,temperature,weather)
+    return print(
+        f"na cidade {nome}, atualmente esta com o clima {weather} e com a temperatura {temperature}"
+    )
 
-    return print(f"na cidade {name}, atualmente esta com o clima {weather} e com a temperatura {temperature}")
-
+#função historic tem á finalidade de retornar o historico de suas pesquisas
+#
 def historic():
 
-    result = viewhistoric()
+    result = view_historic()
 
     return print(result)
-
-
-
-
-
-

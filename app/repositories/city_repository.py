@@ -1,20 +1,21 @@
-from app.database.connection import connection
+from app import connection
 
-def addcity(name, lat, lon):
+
+def add_city(name, lat, lon):
 
     database = connection()
     cursor = database.cursor()
 
     cursor.execute("SELECT nome FROM cidade WHERE nome = %s", (name,))
-    verificador = cursor.fetchall()
+    exists = cursor.fetchall()
 
-    if verificador:   # <- CORREÇÃO
+    if exists:
         print("Essa cidade já existe")
         cursor.close()
         database.close()
         return None
 
-    sql = "INSERT INTO cidade(nome,lat,lon) VALUES (%s,%s,%s)"
+    sql = "INSERT INTO cidade(nome, lat, lon) VALUES (%s, %s, %s)"
 
     city = (name, lat, lon)
 
@@ -25,12 +26,14 @@ def addcity(name, lat, lon):
     database.close()
 
     return "cidade cadastrada com sucesso"
-def listcity():
+
+
+def list_city():
 
     database = connection()
     cursor = database.cursor()
 
-    sql = "select * from cidade"
+    sql = "SELECT * FROM cidade"
 
     cursor.execute(sql)
     data = cursor.fetchall()
@@ -40,14 +43,15 @@ def listcity():
 
     return data
 
-def deletecity(id):
+
+def delete_city(id):
 
     database = connection()
     cursor = database.cursor()
 
-    sql = "delete from cidade where id = (%s)"
+    sql = "DELETE FROM cidade WHERE id = (%s)"
 
-    cursor.execute(sql,id)
+    cursor.execute(sql, (id,))
     database.commit()
 
     cursor.close()
@@ -57,12 +61,13 @@ def deletecity(id):
 
     return data
 
-def searchcity(name):
+
+def search_city(name):
 
     database = connection()
     cursor = database.cursor()
 
-    sql = "SELECT name,id, lat, lon FROM cidade WHERE nome = %s"
+    sql = "SELECT nome, id, lat, lon FROM cidade WHERE nome = %s"
     cursor.execute(sql, (name,))
 
     result = cursor.fetchone()
@@ -77,4 +82,3 @@ def searchcity(name):
     name, id, lat, lon = result
 
     return name, id, lat, lon
-

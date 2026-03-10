@@ -1,6 +1,7 @@
 import requests
 
-def weathernow(lat,lon):
+
+def weathernow(lat, lon):
 
     url = f"https://api.open-meteo.com/v1/forecast?latitude={lat}&longitude={lon}&current_weather=true"
 
@@ -42,7 +43,7 @@ def weathernow(lat,lon):
         99: "Tempestade forte com granizo"
     }
 
-    weather = weather_code_map.get(code,"Clima desconhecido")
+    weather = weather_code_map.get(code, "Clima desconhecido")
 
-    #ira retorna primeiro temperatura e depois o tempo
+
     return temperature, weather
