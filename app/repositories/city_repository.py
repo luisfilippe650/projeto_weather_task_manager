@@ -1,4 +1,4 @@
-from app import connection
+from app.database.connection import connection
 
 
 def add_city(name, lat, lon):
@@ -6,7 +6,7 @@ def add_city(name, lat, lon):
     database = connection()
     cursor = database.cursor()
 
-    cursor.execute("SELECT nome FROM cidade WHERE nome = %s", (name,))
+    cursor.execute("SELECT name FROM cities WHERE name = %s", (name,))
     exists = cursor.fetchall()
 
     if exists:
@@ -15,7 +15,7 @@ def add_city(name, lat, lon):
         database.close()
         return None
 
-    sql = "INSERT INTO cidade(nome, lat, lon) VALUES (%s, %s, %s)"
+    sql = "INSERT INTO cities(name, latitude, longitude) VALUES (%s, %s, %s)"
 
     city = (name, lat, lon)
 
@@ -33,7 +33,7 @@ def list_city():
     database = connection()
     cursor = database.cursor()
 
-    sql = "SELECT * FROM cidade"
+    sql = "SELECT * FROM cities"
 
     cursor.execute(sql)
     data = cursor.fetchall()
@@ -49,7 +49,7 @@ def delete_city(id):
     database = connection()
     cursor = database.cursor()
 
-    sql = "DELETE FROM cidade WHERE id = (%s)"
+    sql = "DELETE FROM cities WHERE id = %s"
 
     cursor.execute(sql, (id,))
     database.commit()
@@ -67,7 +67,7 @@ def search_city(name):
     database = connection()
     cursor = database.cursor()
 
-    sql = "SELECT nome, id, lat, lon FROM cidade WHERE nome = %s"
+    sql = "SELECT name, id, latitude, longitude FROM cities WHERE name = %s"
     cursor.execute(sql, (name,))
 
     result = cursor.fetchone()

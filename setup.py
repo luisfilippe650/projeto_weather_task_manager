@@ -7,7 +7,10 @@ setup(
     packages=find_packages(include=["app", "app.*"]),
 
     install_requires=[
-        "requests"
+        "requests",
+        "mysql-connector-python",
+        "os",
+        "dotenv"
     ],
 
     entry_points={

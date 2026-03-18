@@ -1,0 +1,42 @@
+-- Criar banco
+CREATE DATABASE IF NOT EXISTS weather_db;
+USE weather_db;
+
+-- =========================
+-- Tabela de cidades
+-- =========================
+CREATE TABLE cities (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    latitude DECIMAL(9,6) NOT NULL,
+    longitude DECIMAL(9,6) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- =========================
+-- Tabela de clima atual
+-- =========================
+CREATE TABLE weather (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    city_id INT NOT NULL,
+    temperature DECIMAL(5,2),
+    weather_code INT,
+    description VARCHAR(255),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (city_id) REFERENCES cities(id) ON DELETE CASCADE
+);
+
+-- =========================
+-- Tabela de histórico (opcional)
+-- =========================
+CREATE TABLE weather_history (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    city_id INT NOT NULL,
+    temperature DECIMAL(5,2),
+    weather_code INT,
+    description VARCHAR(255),
+    recorded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (city_id) REFERENCES cities(id) ON DELETE CASCADE
+);

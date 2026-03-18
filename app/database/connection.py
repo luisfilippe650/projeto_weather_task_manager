@@ -1,5 +1,9 @@
+import os
 import mysql.connector
 from mysql.connector import Error
+from dotenv import load_dotenv
+
+load_dotenv()
 
 def connection():
 
